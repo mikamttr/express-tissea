@@ -4,7 +4,7 @@ const port = process.env.PORT || 5000
 
 const app = express()
 app.use(express.json())
-// app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use('/api', require('./routes/categoriesRoutes'))
