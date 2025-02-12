@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id         Int             @id @default(autoincrement())
+  name       String          @unique
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  lines      TransportLine[]
+}
+
+model TransportLine {
+  id         Int     @id @default(autoincrement())
+  categoryId Int
+  name       String
+  startTime  String
+  endTime    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  stops      LineStop[]
+}
+
+model Stop {
+  id         Int      @id @default(autoincrement())
+  name       String
+  latitude   Float
+  longitude  Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  lines      LineStop[]
+}
+
+model LineStop {
+  id       Int      @id @default(autoincrement())
+  lineId   Int
+  stopId   Int
+  stopOrder Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  line   TransportLine @relation(fields: [lineId], references: [id], onDelete: Cascade)
+  stop   Stop @relation(fields: [stopId], references: [id], onDelete: Cascade)
+
+  @@unique([lineId, stopOrder])
+  @@unique([lineId, stopId])
+}
+
+model User {
+  id           Int    @id @default(autoincrement())
+  email        String @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
