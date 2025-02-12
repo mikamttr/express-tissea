@@ -19,7 +19,7 @@ const getCategoryLines = asyncHandler(async (req, res) => {
     try {
         const lines = await categoriesModel.getCategoryLines(parseInt(id))
         if (lines.length === 0) {
-            return res.status(404).json({ message: "Aucune ligne trouvée pour cette catégorie." })
+            return res.status(404).json({ message: `Aucune ligne trouvée pour la catégorie avec l'id ${id}.` })
         }
         res.json(lines)
     } catch (error) {
@@ -35,7 +35,7 @@ const getLineDetails = asyncHandler(async (req, res) => {
     try {
         const line = await categoriesModel.getLineDetails(parseInt(categoryId), parseInt(lineId))
 
-        if (!line) {
+        if (!line || line.categoryId !== parseInt(categoryId)) {
             return res.status(404).json({ message: "Ligne non trouvée." })
         }
 

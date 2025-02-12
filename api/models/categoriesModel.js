@@ -21,6 +21,7 @@ const getLineDetails = async (categoryId, lineId) => {
             id: lineId,
         },
         include: {
+            category: true,
             stops: {
                 orderBy: {
                     stopOrder: 'asc',
