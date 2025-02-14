@@ -1,41 +1,17 @@
-const prisma = require('../prismaClient')
+const prisma = require('../config/prismaClient')
 
 // Récupère toutes les catégories
-const getCategories = async () => {
+const getAllCategories = async () => {
     return await prisma.category.findMany()
 }
 
-// Récupère les lignes d'une catégorie à partir de son ID
+// Récupère les lignes d'une catégorie
 const getCategoryLines = async (categoryId) => {
     return await prisma.transportLine.findMany({
         where: {
             categoryId: categoryId,
-        },
+        }
     })
 }
 
-// Récupère les détails d'une ligne spécifique dans une catégorie
-const getLineDetails = async (categoryId, lineId) => {
-    return await prisma.transportLine.findUnique({
-        where: {
-            id: lineId,
-        },
-        include: {
-            category: true,
-            stops: {
-                orderBy: {
-                    stopOrder: 'asc',
-                },
-                include: {
-                    stop: true,
-                },
-            },
-        },
-    })
-}
-
-module.exports = {
-    getCategories,
-    getCategoryLines,
-    getLineDetails,
-}
+module.exports = { getAllCategories, getCategoryLines }
