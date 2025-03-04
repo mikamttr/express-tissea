@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./api/server.js",
     "server": "node --watch ./api/server.js",
+    "frontend": "cd frontend && npm run dev -- --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {

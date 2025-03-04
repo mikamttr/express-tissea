@@ -8,7 +8,6 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// import des routes
 app.use('/api', require('./routes'))
 
 app.listen(port, () => {

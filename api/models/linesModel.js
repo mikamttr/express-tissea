@@ -20,43 +20,56 @@ const getLineDetails = async (categoryId, lineId) => {
     })
 }
 
-// Ajoute un arrêt à une ligne
-const addStopToLine = async (lineId, stopId, stopOrder) => {
-    return await prisma.lineStop.create({
-        data: {
-            lineId,
-            stopId,
-            stopOrder,
-        },
-    })
-}
-
-// Shift stop orders when inserting in the middle
-const shiftStopOrders = async (lineId, stopOrder) => {
-    const stopsToShift = await prisma.lineStop.findMany({
-        where: {
-            lineId: parseInt(lineId),
-            stopOrder: { gte: parseInt(stopOrder) }
-        },
-        orderBy: { stopOrder: 'desc' }
-    })
-
-    const updateTransactions = stopsToShift.map(stop =>
-        prisma.lineStop.update({
-            where: { id: stop.id },
-            data: { stopOrder: stop.stopOrder + 1 }
-        })
-    )
-
-    await prisma.$transaction(updateTransactions)
-}
-
-// Update a line's details
+// Met à jour les détails d'une ligne de transport
 const updateLineDetails = async (lineId, data) => {
     return await prisma.transportLine.update({
-        where: { id: parseInt(lineId) },
+        where: { id: lineId },
         data,
     })
 }
 
-module.exports = { getLineDetails, addStopToLine, shiftStopOrders, updateLineDetails }
+// Récupère la liste des arrêts d'une ligne
+const getLineStops = async (lineId) => {
+    return await prisma.lineStop.findMany({
+        where: { lineId },
+        orderBy: { stopOrder: 'asc' }
+    })
+}
+
+// Récupère la liste des arrêts d'une ligne avec la latitude et la longitude
+const getLineStopsDetails = async (lineId) => {
+    return await prisma.lineStop.findMany({
+        where: { lineId },
+        orderBy: { stopOrder: 'asc' },
+        include: {
+            stop: {
+                select: {
+                    name: true,
+                    latitude: true,
+                    longitude: true
+                }
+            }
+        }
+    })
+}
+
+// Met à jour et retourne l'ordre des arrêts d'une ligne
+const updateStopsOrder = async (lineId, stops) => {
+    // Supprime les associations pour éviter les conflits
+    await prisma.lineStop.deleteMany({ where: { lineId } })
+    // Recrée les associations avec les nouveaux ordres des arrêts
+    await prisma.lineStop.createMany({
+        data: stops.map((s, index) => ({
+            lineId: s.lineId,
+            stopId: s.stopId,
+            stopOrder: index + 1
+        }))
+    })
+
+    return await prisma.lineStop.findMany({
+        where: { lineId },
+        orderBy: { stopOrder: 'asc' }
+    })
+}
+
+module.exports = { getLineDetails, getLineStopsDetails, updateLineDetails, getLineStops, updateStopsOrder }
