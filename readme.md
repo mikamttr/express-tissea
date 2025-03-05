@@ -75,7 +75,6 @@ The frontend should now be accessible at [http://localhost:5173](http://localhos
   
 - **Frontend**: The Vue.js frontend allows users to interact with the transport data and provides an interface for user authentication.
 
-Here's the updated version of the API Endpoints section based on the actual routes defined in your `routes.js`:
 
 ## API Endpoints
 
