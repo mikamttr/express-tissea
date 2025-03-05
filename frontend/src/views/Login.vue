@@ -1,12 +1,14 @@
 <template>
-    <div>
-        <h2>Login</h2>
-        <form @submit.prevent="handleLogin">
-            <input v-model="email" type="email" placeholder="Email" required />
-            <input v-model="password" type="password" placeholder="Password" required />
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
+    <div class="container">
+        <div>
+            <h2 class="mb-1">Login</h2>
+            <form class="form" @submit.prevent="handleLogin">
+                <input class="form-input" v-model="email" type="email" placeholder="Email" required />
+                <input class="form-input" v-model="password" type="password" placeholder="Password" required />
+                <button class="button-primary" type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
+        </div>
     </div>
 </template>
 

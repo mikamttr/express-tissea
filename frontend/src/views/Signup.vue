@@ -1,13 +1,15 @@
 <template>
-    <div>
-        <h2>Sign Up</h2>
-        <form @submit.prevent="handleSignup">
-            <input v-model="username" type="text" placeholder="Username" required />
-            <input v-model="email" type="email" placeholder="Email" required />
-            <input v-model="password" type="password" placeholder="Password" required />
-            <button type="submit">Sign Up</button>
-        </form>
-        <p>Already have an account? <router-link to="/login">Login</router-link></p>
+    <div class="container">
+        <div>
+            <h2 class="mb-1">Sign Up</h2>
+            <form class="form" @submit.prevent="handleSignup">
+                <input class="form-input" v-model="username" type="text" placeholder="Username" required />
+                <input class="form-input" v-model="email" type="email" placeholder="Email" required />
+                <input class="form-input" v-model="password" type="password" placeholder="Password" required />
+                <button class="button-primary" type="submit">Sign Up</button>
+            </form>
+            <p>Already have an account? <router-link to="/login">Login</router-link></p>
+        </div>
     </div>
 </template>
 
@@ -26,7 +28,10 @@ export default {
         const handleSignup = async () => {
             try {
                 await signup(username.value, email.value, password.value);
-                router.push('/');
+
+                // redirect to the login page
+                alert('Account created successfully');
+                router.push('/login');
             } catch (error) {
                 alert(error.response?.data?.message || 'Signup failed');
             }

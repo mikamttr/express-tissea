@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const user = await usersModel.createUser(email, hashedPassword)
+    const user = await usersModel.createUser(username, email, hashedPassword)
 
     if (user) {
         res.status(201).json({
@@ -45,6 +45,7 @@ const loginUser = asyncHandler(async (req, res) => {
     if (user && (await bcrypt.compare(password, user.passwordHash))) {
         res.json({
             id: user.id,
+            username: user.username,
             email: user.email,
             token: generateJWT(user.id),
         })
