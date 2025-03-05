@@ -11,11 +11,11 @@ Mika MANTTARI
 - [Database Schema](#database-schema)
 
 ## Features
-- **Transport Line Management**: Create and manage transport lines with associated categories and stops.
+- **Transport Line Management**: Create and manage transport lines, categories and stops.
 - **User Authentication**: Allows users to register and authenticate via JWT (JSON Web Tokens).
 - **Prisma ORM**: Easily manage and interact with the MySQL database using Prisma.
 - **Frontend**: Simple Vue.js frontend integrated with the API, featuring a map display powered by Leaflet and OpenStreetMap.
-- **Environment Variables**: dotenv.
+- **Environment Variables**: Managed with dotenv.
 
 ## Installation
 
@@ -23,11 +23,11 @@ Mika MANTTARI
 1. Clone the repository:
    ```bash
    git clone https://github.com/mikamttr/express-tissea.git
-   cd express-tissea/tissea-api
    ```
 
 2. Install dependencies:
    ```bash
+   cd tissea-api
    npm install
    ```
 
