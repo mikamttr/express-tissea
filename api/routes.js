@@ -8,17 +8,17 @@ const { getDistanceBetweenStops, getTotalDistanceOfLine } = require('./controlle
 const { protect } = require('./middlewares/authMiddleware')
 
 // Categories routes
-router.get('/categories', getAllCategories)
-router.get('/categories/:id/lines', getCategoryLines)
-router.get('/categories/:categoryId/lines/:lineId', getLineDetails)
-router.get('/categories/:categoryId/lines/:lineId/stops', getLineStopsDetails)
+router.get('/categories', protect, getAllCategories)
+router.get('/categories/:id/lines', protect, getCategoryLines)
+router.get('/categories/:categoryId/lines/:lineId', protect, getLineDetails)
+router.get('/categories/:categoryId/lines/:lineId/stops', protect, getLineStopsDetails)
 router.put('/categories/:categoryId/lines/:lineId', protect, updateLineDetails)
 router.post('/categories/:categoryId/lines/:lineId/stops', protect, addStopToLine)
 router.delete('/categories/:categoryId/lines/:lineId/stops/:stopId', protect, deleteStopFromLine)
 
 // Stats routes
-router.get('/stats/distance/stops/:id1/:id2', getDistanceBetweenStops)
-router.get('/stats/distance/lines/:id', getTotalDistanceOfLine)
+router.get('/stats/distance/stops/:id1/:id2', protect, getDistanceBetweenStops)
+router.get('/stats/distance/lines/:id', protect, getTotalDistanceOfLine)
 
 // Users routes
 router.post('/users/signup', registerUser)
