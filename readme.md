@@ -116,6 +116,7 @@ JWT_SECRET=your_secret_key
 ```
 
 ## Database Schema
+![tissea database](https://github.com/user-attachments/assets/f95f515e-d0df-4ee1-88b6-92cf59418056)
 
 The project uses Prisma for ORM. The schema defines the following models:
 
